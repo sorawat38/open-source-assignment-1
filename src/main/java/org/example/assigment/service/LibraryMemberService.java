@@ -4,12 +4,18 @@ import org.example.assigment.model.LibraryMember;
 import org.example.assigment.repository.LibraryMemberRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LibraryMemberService {
     private final LibraryMemberRepository libraryMemberRepository;
 
     public LibraryMemberService(LibraryMemberRepository libraryMemberRepository) {
         this.libraryMemberRepository = libraryMemberRepository;
+    }
+
+    public List<LibraryMember> getAllLibraryMembers() {
+        return libraryMemberRepository.findAll();
     }
 
     // find by id
@@ -38,4 +44,5 @@ public class LibraryMemberService {
     public void deleteLibraryMember(Long id) {
         libraryMemberRepository.deleteById(id);
     }
+
 }
