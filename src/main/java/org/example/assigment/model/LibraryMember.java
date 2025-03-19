@@ -15,10 +15,11 @@ public class LibraryMember {
     private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL) // If a member is deleted, their membership card should also be deleted
-    @JoinColumn(name = "membership_card_id", referencedColumnName = "id")
+    @JoinColumn(name = "membership_card_number", referencedColumnName = "cardNumber")
     private MembershipCard membershipCard;
 
-    @OneToMany(mappedBy = "libraryMember", cascade = CascadeType.ALL) // If a member is deleted, delete all borrow records
+    @OneToMany(mappedBy = "libraryMember", cascade = CascadeType.ALL)
+    // If a member is deleted, delete all borrow records
     private List<BorrowRecord> borrowRecords;
 
     public LibraryMember() {
