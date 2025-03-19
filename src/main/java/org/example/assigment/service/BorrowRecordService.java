@@ -4,12 +4,19 @@ import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.repository.BorrowRecordRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BorrowRecordService {
     private final BorrowRecordRepository borrowRecordRepository;
 
     public BorrowRecordService(BorrowRecordRepository borrowRecordRepository) {
         this.borrowRecordRepository = borrowRecordRepository;
+    }
+
+    // get all
+    public List<BorrowRecord> getAllBorrowRecords() {
+        return borrowRecordRepository.findAll();
     }
 
     // find by id

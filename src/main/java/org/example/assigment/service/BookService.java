@@ -4,12 +4,19 @@ import org.example.assigment.model.Book;
 import org.example.assigment.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookService {
     private final BookRepository bookRepository;
 
     public BookService(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
+    }
+
+    // get all
+    public List<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
     // find by id

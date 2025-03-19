@@ -4,12 +4,19 @@ import org.example.assigment.model.Author;
 import org.example.assigment.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AuthorService {
     private final AuthorRepository authorRepository;
 
     public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
+    }
+
+    // get all
+    public List<Author> getAllAuthors() {
+        return authorRepository.findAll();
     }
 
     // find by id

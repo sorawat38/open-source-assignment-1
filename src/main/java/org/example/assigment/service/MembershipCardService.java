@@ -4,12 +4,19 @@ import org.example.assigment.model.MembershipCard;
 import org.example.assigment.repository.MembershipCardRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MembershipCardService {
     private final MembershipCardRepository membershipCardRepository;
 
     public MembershipCardService(MembershipCardRepository membershipCardRepository) {
         this.membershipCardRepository = membershipCardRepository;
+    }
+
+    // get all
+    public List<MembershipCard> getAllMembershipCards() {
+        return membershipCardRepository.findAll();
     }
 
     // find by id
