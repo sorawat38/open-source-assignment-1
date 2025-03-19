@@ -21,7 +21,7 @@ public class LibraryMember {
     private LocalDate membershipDate;
 
     @OneToOne(cascade = CascadeType.ALL) // If a member is deleted, their membership card should also be deleted
-    @JoinColumn(name = "membership_card_number", referencedColumnName = "cardNumber")
+    @JoinColumn(name = "membership_card_id", referencedColumnName = "id")
     private MembershipCard membershipCard;
 
     @OneToMany(mappedBy = "libraryMember", cascade = CascadeType.ALL)
