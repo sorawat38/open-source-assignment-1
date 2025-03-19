@@ -1,6 +1,6 @@
 package org.example.assigment.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -16,9 +16,8 @@ public class Author {
     private String name;
     private String biography;
 
-    @ManyToMany(mappedBy = "authors",
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    @JsonBackReference
+    @ManyToMany(mappedBy = "authors")
+    @JsonIgnore
     private Set<Book> books;
 
     public Author() {

@@ -1,20 +1,26 @@
 package org.example.assigment.service;
 
+import org.example.assigment.model.Author;
 import org.example.assigment.model.Book;
+import org.example.assigment.repository.AuthorRepository;
 import org.example.assigment.repository.BookRepository;
 import org.example.assigment.repository.BorrowRecordRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
     private final BorrowRecordRepository borrowRecordRepository;
+    private final AuthorRepository authorRepository;
 
-    public BookService(BookRepository bookRepository, BorrowRecordRepository borrowRecordRepository) {
+    public BookService(BookRepository bookRepository, BorrowRecordRepository borrowRecordRepository, AuthorRepository authorRepository) {
         this.bookRepository = bookRepository;
         this.borrowRecordRepository = borrowRecordRepository;
+        this.authorRepository = authorRepository;
     }
 
     // get all
@@ -29,10 +35,20 @@ public class BookService {
 
     // save
     public Book saveBook(Book book) {
-        // validate authors before saving the book
+        // validate that the book has at least one author
         if (book.getAuthors() == null || book.getAuthors().isEmpty()) {
             throw new IllegalArgumentException("A book must have at least one author.");
         }
+
+        // ensure authors exist before assigning them to the book
+        Set<Author> managedAuthors = new HashSet<>();
+        for (Author author : book.getAuthors()) {
+            Author managedAuthor = authorRepository.findById(author.getId())
+                    .orElseThrow(() -> new RuntimeException("Author not found with ID: " + author.getId()));
+            managedAuthors.add(managedAuthor);
+        }
+
+        book.setAuthors(managedAuthors);
 
         return bookRepository.save(book);
     }

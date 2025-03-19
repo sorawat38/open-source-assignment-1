@@ -1,6 +1,6 @@
 package org.example.assigment.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -26,12 +26,11 @@ public class Book {
     @JoinTable(name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id"))
-    @JsonManagedReference
     @NotEmpty(message = "A book must have at least one author")
     private Set<Author> authors;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL) // if book is deleted, delete all borrow records
-    @JsonManagedReference
+    @JsonIgnore
     private List<BorrowRecord> borrowRecords;
 
     public Book() {

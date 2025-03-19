@@ -33,6 +33,8 @@ public class BookController {
             return ResponseEntity.ok(savedBook);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
 
