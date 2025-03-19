@@ -2,6 +2,8 @@ package org.example.assigment.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class BorrowRecord {
     @Id
@@ -16,12 +18,18 @@ public class BorrowRecord {
     @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false, unique = true) // set unique to true to ensure a book can only be borrowed by one member at a time
     private Book book;
 
+    @Column(nullable = false)
+    private LocalDate borrowDate;
+    private LocalDate returnDate;
+
     public BorrowRecord() {
     }
 
-    public BorrowRecord(LibraryMember libraryMember, Book book) {
+    public BorrowRecord(LibraryMember libraryMember, Book book, LocalDate borrowDate) {
         this.libraryMember = libraryMember;
         this.book = book;
+        this.borrowDate = borrowDate;
+        this.returnDate = null; // not returned yet
     }
 
     public void setId(Long id) {
@@ -48,12 +56,30 @@ public class BorrowRecord {
         this.book = book;
     }
 
+    public LocalDate getBorrowDate() {
+        return borrowDate;
+    }
+
+    public void setBorrowDate(LocalDate borrowDate) {
+        this.borrowDate = borrowDate;
+    }
+
+    public LocalDate getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(LocalDate returnDate) {
+        this.returnDate = returnDate;
+    }
+
     @Override
     public String toString() {
         return "BorrowRecord{" +
                 "id=" + id +
                 ", libraryMember=" + libraryMember +
                 ", book=" + book +
+                ", borrowDate=" + borrowDate +
+                ", returnDate=" + returnDate +
                 '}';
     }
 }
