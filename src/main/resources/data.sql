@@ -1,10 +1,10 @@
-INSERT INTO library_member (id, name, email, membership_date)
-VALUES (1, 'Alice Johnson', 'alice@example.com', '2023-01-10'),
-       (2, 'Bob Smith', 'bob@example.com', '2023-03-15');
+INSERT INTO membership_card (id, card_number, issue_date, expiry_date)
+VALUES (1, 'X8JZ-2M4Q-9WTP', '2023-01-10', '2026-01-10'),
+       (2, 'L3YV-7A6F-1KBD', '2023-03-15', '2026-03-15');
 
-INSERT INTO membership_card (id, card_number, issue_date, expiry_date, library_member_id)
-VALUES (1, 'X8JZ-2M4Q-9WTP', '2023-01-10', '2026-01-10', 1),
-       (2, 'L3YV-7A6F-1KBD', '2023-03-15', '2026-03-15', 2);
+INSERT INTO library_member (id, name, email, membership_date, membership_card_id)
+VALUES (1, 'Alice Johnson', 'alice@example.com', '2023-01-10', 1),
+       (2, 'Bob Smith', 'bob@example.com', '2023-03-15', 2);
 
 INSERT INTO author (id, name, biography)
 VALUES (1, 'J.K. Rowling', 'British author, best known for Harry Potter.'),
