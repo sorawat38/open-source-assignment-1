@@ -29,6 +29,11 @@ public class BookService {
 
     // save
     public Book saveBook(Book book) {
+        // validate authors before saving the book
+        if (book.getAuthors() == null || book.getAuthors().isEmpty()) {
+            throw new IllegalArgumentException("A book must have at least one author.");
+        }
+
         return bookRepository.save(book);
     }
 

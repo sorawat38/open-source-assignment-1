@@ -27,8 +27,13 @@ public class BookController {
     }
 
     @PostMapping()
-    public Book saveBook(@RequestBody Book book) {
-        return bookService.saveBook(book);
+    public ResponseEntity<?> saveBook(@RequestBody Book book) {
+        try {
+            Book savedBook = bookService.saveBook(book);
+            return ResponseEntity.ok(savedBook);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
