@@ -10,17 +10,18 @@ public class BorrowRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private LocalDate borrowDate;
+    private LocalDate returnDate;
+
     @ManyToOne()
     @JoinColumn(name = "library_member_id", referencedColumnName = "id", nullable = false)
     private LibraryMember libraryMember;
 
     @ManyToOne()
-    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false, unique = true) // set unique to true to ensure a book can only be borrowed by one member at a time
+    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false, unique = true)
+    // set unique to true to ensure a book can only be borrowed by one member at a time
     private Book book;
-
-    @Column(nullable = false)
-    private LocalDate borrowDate;
-    private LocalDate returnDate;
 
     public BorrowRecord() {
     }
@@ -32,12 +33,12 @@ public class BorrowRecord {
         this.returnDate = null; // not returned yet
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LibraryMember getLibraryMember() {

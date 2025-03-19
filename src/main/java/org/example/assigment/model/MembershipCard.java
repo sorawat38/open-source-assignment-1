@@ -8,8 +8,16 @@ import java.util.Random;
 @Entity
 public class MembershipCard {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String cardNumber;
+
+    @Column(nullable = false)
     private String issueDate;
+
+    @Column(nullable = false)
     private String expiryDate;
 
     @OneToOne(mappedBy = "membershipCard", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
@@ -19,11 +27,10 @@ public class MembershipCard {
     public MembershipCard() {
     }
 
-    public MembershipCard(String issueDate, String expiryDate, LibraryMember libraryMember) {
+    public MembershipCard(String issueDate, String expiryDate) {
         this.cardNumber = generateCardNumber();
         this.issueDate = issueDate;
         this.expiryDate = expiryDate;
-        this.libraryMember = libraryMember;
     }
 
     /**
@@ -45,6 +52,14 @@ public class MembershipCard {
             cardNumber.append(characters.charAt(random.nextInt(characters.length())));
         }
         return cardNumber.toString();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCardNumber() {
@@ -82,7 +97,8 @@ public class MembershipCard {
     @Override
     public String toString() {
         return "MembershipCard{" +
-                "cardNumber='" + cardNumber + '\'' +
+                "id=" + id +
+                ", cardNumber='" + cardNumber + '\'' +
                 ", issueDate='" + issueDate + '\'' +
                 ", expiryDate='" + expiryDate + '\'' +
                 '}';

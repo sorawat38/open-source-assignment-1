@@ -13,8 +13,8 @@ public class MembershipCardService {
     }
 
     // find by id
-    public MembershipCard getMembershipCardById(String cardNumber) {
-        return membershipCardRepository.findById(cardNumber).orElse(null);
+    public MembershipCard getMembershipCardById(Long id) {
+        return membershipCardRepository.findById(id).orElse(null);
     }
 
     // save
@@ -23,10 +23,10 @@ public class MembershipCardService {
     }
 
     // update
-    public MembershipCard updateMembershipCard(String cardNumber, MembershipCard membershipCard) {
-        MembershipCard oldMembershipCard = membershipCardRepository.findById(cardNumber).orElse(null);
+    public MembershipCard updateMembershipCard(Long id, MembershipCard membershipCard) {
+        MembershipCard oldMembershipCard = membershipCardRepository.findById(id).orElse(null);
         if (oldMembershipCard != null) {
-            oldMembershipCard.setLibraryMember(membershipCard.getLibraryMember());
+            oldMembershipCard.setCardNumber(membershipCard.getCardNumber());
             oldMembershipCard.setIssueDate(membershipCard.getIssueDate());
             oldMembershipCard.setExpiryDate(membershipCard.getExpiryDate());
             return membershipCardRepository.save(oldMembershipCard);
@@ -35,7 +35,7 @@ public class MembershipCardService {
     }
 
     // delete
-    public void deleteMembershipCard(String cardNumber) {
-        membershipCardRepository.deleteById(cardNumber);
+    public void deleteMembershipCard(Long id) {
+        membershipCardRepository.deleteById(id);
     }
 }
