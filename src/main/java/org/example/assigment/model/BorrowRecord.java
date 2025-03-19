@@ -9,11 +9,11 @@ public class BorrowRecord {
     private Long id;
 
     @ManyToOne()
-    @JoinColumn(name = "library_member_id", referencedColumnName = "id")
+    @JoinColumn(name = "library_member_id", referencedColumnName = "id", nullable = false)
     private LibraryMember libraryMember;
 
     @ManyToOne()
-    @JoinColumn(name = "book_id", referencedColumnName = "id")
+    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false, unique = true) // set unique to true to ensure a book can only be borrowed by one member at a time
     private Book book;
 
     public BorrowRecord() {
