@@ -2,6 +2,7 @@ package org.example.assigment.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -10,9 +11,12 @@ public class LibraryMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @Column(unique = true)
+
+    @Column(nullable = false, unique = true)
     private String email;
-    private String phoneNumber;
+
+    @Column(nullable = false)
+    private LocalDate membershipDate;
 
     @OneToOne(cascade = CascadeType.ALL) // If a member is deleted, their membership card should also be deleted
     @JoinColumn(name = "membership_card_number", referencedColumnName = "cardNumber")
@@ -25,10 +29,10 @@ public class LibraryMember {
     public LibraryMember() {
     }
 
-    public LibraryMember(String name, String email, String phoneNumber) {
+    public LibraryMember(String name, String email, LocalDate membershipDate) {
         this.name = name;
         this.email = email;
-        this.phoneNumber = phoneNumber;
+        this.membershipDate = membershipDate;
     }
 
     public Long getId() {
@@ -55,12 +59,12 @@ public class LibraryMember {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public LocalDate getMembershipDate() {
+        return membershipDate;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMembershipDate(LocalDate membershipDate) {
+        this.membershipDate = membershipDate;
     }
 
     public MembershipCard getMembershipCard() {
@@ -85,7 +89,7 @@ public class LibraryMember {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", membershipDate=" + membershipDate +
                 ", membershipCard=" + membershipCard +
                 '}';
     }

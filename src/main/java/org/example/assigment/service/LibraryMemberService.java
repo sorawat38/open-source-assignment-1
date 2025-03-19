@@ -34,7 +34,7 @@ public class LibraryMemberService {
         if (oldLibraryMember != null) {
             oldLibraryMember.setName(libraryMember.getName());
             oldLibraryMember.setEmail(libraryMember.getEmail());
-            oldLibraryMember.setPhoneNumber(libraryMember.getPhoneNumber());
+            oldLibraryMember.setMembershipDate(libraryMember.getMembershipDate());
             return libraryMemberRepository.save(oldLibraryMember);
         }
         return null;
