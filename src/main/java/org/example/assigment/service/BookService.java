@@ -2,6 +2,7 @@ package org.example.assigment.service;
 
 import org.example.assigment.model.Book;
 import org.example.assigment.repository.BookRepository;
+import org.example.assigment.repository.BorrowRecordRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +10,11 @@ import java.util.List;
 @Service
 public class BookService {
     private final BookRepository bookRepository;
+    private final BorrowRecordRepository borrowRecordRepository;
 
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, BorrowRecordRepository borrowRecordRepository) {
         this.bookRepository = bookRepository;
+        this.borrowRecordRepository = borrowRecordRepository;
     }
 
     // get all
@@ -43,6 +46,10 @@ public class BookService {
 
     // delete
     public void deleteBook(Long id) {
+        boolean isBorrowed = borrowRecordRepository.existsByBookIdAndReturnDateIsNull(id);
+        if (isBorrowed) {
+            throw new IllegalStateException("This book is currently borrowed and cannot be deleted.");
+        }
         bookRepository.deleteById(id);
     }
 }
