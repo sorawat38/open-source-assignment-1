@@ -1,5 +1,6 @@
 package org.example.assigment.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -24,8 +25,9 @@ public class LibraryMember {
     @JoinColumn(name = "membership_card_id", referencedColumnName = "id")
     private MembershipCard membershipCard;
 
-    @OneToMany(mappedBy = "libraryMember", cascade = CascadeType.ALL)
     // If a member is deleted, delete all borrow records
+    @OneToMany(mappedBy = "libraryMember", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<BorrowRecord> borrowRecords;
 
     public LibraryMember() {

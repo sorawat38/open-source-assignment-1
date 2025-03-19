@@ -31,6 +31,7 @@ public class Book {
     private Set<Author> authors;
 
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL) // if book is deleted, delete all borrow records
+    @JsonManagedReference
     private List<BorrowRecord> borrowRecords;
 
     public Book() {
