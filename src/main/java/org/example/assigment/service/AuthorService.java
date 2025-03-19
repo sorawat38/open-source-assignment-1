@@ -26,10 +26,8 @@ public class AuthorService {
     public Author updateAuthor(Long id, Author author) {
         Author oldAuthor = authorRepository.findById(id).orElse(null);
         if (oldAuthor != null) {
-            oldAuthor.setFirstName(author.getFirstName());
-            oldAuthor.setLastName(author.getLastName());
-            oldAuthor.setEmail(author.getEmail());
-            oldAuthor.setPhoneNumber(author.getPhoneNumber());
+            oldAuthor.setName(author.getName());
+            oldAuthor.setBiography(author.getBiography());
             return authorRepository.save(oldAuthor);
         }
         return null;

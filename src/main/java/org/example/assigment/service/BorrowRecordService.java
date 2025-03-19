@@ -26,8 +26,6 @@ public class BorrowRecordService {
     public BorrowRecord updateBorrowRecord(Long id, BorrowRecord borrowRecord) {
         BorrowRecord oldBorrowRecord = borrowRecordRepository.findById(id).orElse(null);
         if (oldBorrowRecord != null) {
-            oldBorrowRecord.setBook(borrowRecord.getBook());
-            oldBorrowRecord.setLibraryMember(borrowRecord.getLibraryMember());
             oldBorrowRecord.setBorrowDate(borrowRecord.getBorrowDate());
             oldBorrowRecord.setReturnDate(borrowRecord.getReturnDate());
             return borrowRecordRepository.save(oldBorrowRecord);
