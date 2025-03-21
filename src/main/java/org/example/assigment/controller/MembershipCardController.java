@@ -32,7 +32,7 @@ public class MembershipCardController {
     }
 
     @PutMapping("/{id}")
-    public MembershipCard updateMembershipCard(@Validated @PathVariable Long id, @RequestBody MembershipCard membershipCard) {
+    public MembershipCard updateMembershipCard(@PathVariable Long id, @Validated @RequestBody MembershipCard membershipCard) {
         return membershipCardService.updateMembershipCard(id, membershipCard);
     }
 }

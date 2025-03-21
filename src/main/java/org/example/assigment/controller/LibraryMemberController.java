@@ -33,7 +33,7 @@ public class LibraryMemberController {
     }
 
     @PutMapping("/{id}")
-    public LibraryMember updateLibraryMember(@Validated @PathVariable Long id, @RequestBody LibraryMember libraryMember) {
+    public LibraryMember updateLibraryMember(@PathVariable Long id, @Validated @RequestBody LibraryMember libraryMember) {
         return libraryMemberService.updateLibraryMember(id, libraryMember);
     }
 

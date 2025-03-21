@@ -32,7 +32,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public Author updateAuthor(@Validated @PathVariable Long id, @RequestBody Author author) {
+    public Author updateAuthor(@PathVariable Long id, @Validated @RequestBody Author author) {
         return authorService.updateAuthor(id, author);
     }
 
