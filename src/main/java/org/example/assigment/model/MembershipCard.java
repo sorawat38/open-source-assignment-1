@@ -1,6 +1,5 @@
 package org.example.assigment.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Random;
@@ -21,7 +20,6 @@ public class MembershipCard {
     private String expiryDate;
 
     @OneToOne(mappedBy = "membershipCard", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-    @JsonBackReference
     private LibraryMember libraryMember;
 
     public MembershipCard() {

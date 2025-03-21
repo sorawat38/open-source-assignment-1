@@ -1,7 +1,7 @@
 package org.example.assigment.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -15,15 +15,14 @@ public class BorrowRecord {
     private LocalDate borrowDate;
     private LocalDate returnDate;
 
+    @NotNull(message = "Library member cannot be null")
     @ManyToOne()
     @JoinColumn(name = "library_member_id", referencedColumnName = "id", nullable = false)
-    @JsonBackReference
     private LibraryMember libraryMember;
 
+    @NotNull(message = "Book cannot be null")
     @ManyToOne()
-    // set unique to true to ensure a book can only be borrowed by one member at a time
-    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false, unique = true)
-    @JsonBackReference
+    @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
     private Book book;
 
     public BorrowRecord() {
