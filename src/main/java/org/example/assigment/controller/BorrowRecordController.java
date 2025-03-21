@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.service.BorrowRecordService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,18 @@ public class BorrowRecordController {
     @PostMapping()
     public BorrowRecord saveBorrowRecord(@Validated @RequestBody BorrowRecord borrowRecord) {
         return borrowRecordService.saveBorrowRecord(borrowRecord);
+    }
+
+    @PatchMapping("/{id}/return")
+    public ResponseEntity<?> returnBook(@PathVariable Long id) {
+        try {
+            borrowRecordService.returnBook(id);
+            return ResponseEntity.ok("Book returned successfully.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")

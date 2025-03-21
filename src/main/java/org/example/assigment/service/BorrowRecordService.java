@@ -66,6 +66,17 @@ public class BorrowRecordService {
         return null;
     }
 
+    public void returnBook(Long id) {
+        BorrowRecord borrowRecord = borrowRecordRepository.findById(id).orElse(null);
+        if (borrowRecord != null) {
+            if (borrowRecord.getReturnDate() != null) {
+                throw new IllegalStateException("This book has already been returned.");
+            }
+            borrowRecord.setReturnDate(java.time.LocalDate.now());
+            borrowRecordRepository.save(borrowRecord);
+        }
+    }
+
     // delete
     public void deleteBorrowRecord(Long id) {
         borrowRecordRepository.deleteById(id);
