@@ -26,6 +26,12 @@ public class BorrowRecordService {
 
     // save
     public BorrowRecord saveBorrowRecord(BorrowRecord borrowRecord) {
+        // check is book already borrowed
+        boolean isBorrowed = borrowRecordRepository.existsByBookIdAndReturnDateIsNull(borrowRecord.getBook().getId());
+        if (isBorrowed) {
+            throw new IllegalStateException("This book is currently borrowed by someone else");
+        }
+
         return borrowRecordRepository.save(borrowRecord);
     }
 
