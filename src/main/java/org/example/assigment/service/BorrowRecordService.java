@@ -1,7 +1,11 @@
 package org.example.assigment.service;
 
+import org.example.assigment.model.Book;
 import org.example.assigment.model.BorrowRecord;
+import org.example.assigment.model.LibraryMember;
+import org.example.assigment.repository.BookRepository;
 import org.example.assigment.repository.BorrowRecordRepository;
+import org.example.assigment.repository.LibraryMemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +13,13 @@ import java.util.List;
 @Service
 public class BorrowRecordService {
     private final BorrowRecordRepository borrowRecordRepository;
+    private final BookRepository bookRepository;
+    private final LibraryMemberRepository libraryMemberRepository;
 
-    public BorrowRecordService(BorrowRecordRepository borrowRecordRepository) {
+    public BorrowRecordService(BorrowRecordRepository borrowRecordRepository, BookRepository bookRepository, LibraryMemberRepository libraryMemberRepository) {
         this.borrowRecordRepository = borrowRecordRepository;
+        this.bookRepository = bookRepository;
+        this.libraryMemberRepository = libraryMemberRepository;
     }
 
     // get all
@@ -26,11 +34,23 @@ public class BorrowRecordService {
 
     // save
     public BorrowRecord saveBorrowRecord(BorrowRecord borrowRecord) {
-        // check is book already borrowed
-        boolean isBorrowed = borrowRecordRepository.existsByBookIdAndReturnDateIsNull(borrowRecord.getBook().getId());
+        Long bookId = borrowRecord.getBook().getId();
+        Long memberId = borrowRecord.getLibraryMember().getId();
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("Book with ID " + bookId + " not found"));
+
+        LibraryMember member = libraryMemberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("Library member with ID " + memberId + " not found"));
+
+        // Check if book is already borrowed
+        boolean isBorrowed = borrowRecordRepository.existsByBookIdAndReturnDateIsNull(bookId);
         if (isBorrowed) {
-            throw new IllegalStateException("This book is currently borrowed by someone else");
+            throw new IllegalStateException("This book is currently borrowed by someone else.");
         }
+
+        borrowRecord.setBook(book);
+        borrowRecord.setLibraryMember(member);
 
         return borrowRecordRepository.save(borrowRecord);
     }
