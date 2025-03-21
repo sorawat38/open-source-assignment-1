@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.LibraryMember;
 import org.example.assigment.service.LibraryMemberService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,8 +39,13 @@ public class LibraryMemberController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteLibraryMember(@PathVariable Long id) {
-        libraryMemberService.deleteLibraryMember(id);
+    public ResponseEntity<?> deleteLibraryMember(@PathVariable Long id) {
+        try {
+            libraryMemberService.deleteLibraryMember(id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok().body("Library member deleted successfully.");
     }
 }
 

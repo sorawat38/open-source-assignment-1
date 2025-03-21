@@ -1,6 +1,8 @@
 package org.example.assigment.service;
 
+import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.model.LibraryMember;
+import org.example.assigment.repository.BorrowRecordRepository;
 import org.example.assigment.repository.LibraryMemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,11 @@ import java.util.List;
 @Service
 public class LibraryMemberService {
     private final LibraryMemberRepository libraryMemberRepository;
+    private final BorrowRecordRepository borrowRecordRepository;
 
-    public LibraryMemberService(LibraryMemberRepository libraryMemberRepository) {
+    public LibraryMemberService(LibraryMemberRepository libraryMemberRepository, BorrowRecordRepository borrowRecordRepository) {
         this.libraryMemberRepository = libraryMemberRepository;
+        this.borrowRecordRepository = borrowRecordRepository;
     }
 
     public List<LibraryMember> getAllLibraryMembers() {
@@ -42,6 +46,12 @@ public class LibraryMemberService {
 
     // delete
     public void deleteLibraryMember(Long id) {
+        // check that return all books then arrow to delete
+        List<BorrowRecord> borrowRecord = borrowRecordRepository.findByLibraryMemberId(id);
+        if (borrowRecord != null) {
+            throw new RuntimeException("Library member has not returned all books");
+        }
+
         libraryMemberRepository.deleteById(id);
     }
 
