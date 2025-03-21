@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.service.BorrowRecordService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class BorrowRecordController {
     }
 
     @PostMapping()
-    public BorrowRecord saveBorrowRecord(@RequestBody BorrowRecord borrowRecord) {
+    public BorrowRecord saveBorrowRecord(@Validated @RequestBody BorrowRecord borrowRecord) {
         return borrowRecordService.saveBorrowRecord(borrowRecord);
     }
 

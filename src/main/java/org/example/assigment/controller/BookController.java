@@ -3,6 +3,7 @@ package org.example.assigment.controller;
 import org.example.assigment.model.Book;
 import org.example.assigment.service.BookService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class BookController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveBook(@RequestBody Book book) {
+    public ResponseEntity<?> saveBook(@Validated @RequestBody Book book) {
         try {
             Book savedBook = bookService.saveBook(book);
             return ResponseEntity.ok(savedBook);
