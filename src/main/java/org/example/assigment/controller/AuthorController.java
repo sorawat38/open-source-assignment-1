@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.Author;
 import org.example.assigment.service.AuthorService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +27,12 @@ public class AuthorController {
     }
 
     @PostMapping()
-    public Author saveAuthor(@RequestBody Author author) {
+    public Author saveAuthor(@Validated @RequestBody Author author) {
         return authorService.saveAuthor(author);
     }
 
     @PutMapping("/{id}")
-    public Author updateAuthor(@PathVariable Long id, @RequestBody Author author) {
+    public Author updateAuthor(@Validated @PathVariable Long id, @RequestBody Author author) {
         return authorService.updateAuthor(id, author);
     }
 

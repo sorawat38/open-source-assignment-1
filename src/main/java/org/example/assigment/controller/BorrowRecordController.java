@@ -32,7 +32,7 @@ public class BorrowRecordController {
     }
 
     @PutMapping("/{id}")
-    public BorrowRecord updateBorrowRecord(@PathVariable Long id, @RequestBody BorrowRecord borrowRecord) {
+    public BorrowRecord updateBorrowRecord(@Validated @PathVariable Long id, @RequestBody BorrowRecord borrowRecord) {
         return borrowRecordService.updateBorrowRecord(id, borrowRecord);
     }
 

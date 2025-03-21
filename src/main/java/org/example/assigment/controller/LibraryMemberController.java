@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.LibraryMember;
 import org.example.assigment.service.LibraryMemberService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class LibraryMemberController {
     }
 
     @PostMapping()
-    public LibraryMember saveLibraryMember(@RequestBody LibraryMember libraryMember) {
+    public LibraryMember saveLibraryMember(@Validated @RequestBody LibraryMember libraryMember) {
         return libraryMemberService.saveLibraryMember(libraryMember);
     }
 
     @PutMapping("/{id}")
-    public LibraryMember updateLibraryMember(@PathVariable Long id, @RequestBody LibraryMember libraryMember) {
+    public LibraryMember updateLibraryMember(@Validated @PathVariable Long id, @RequestBody LibraryMember libraryMember) {
         return libraryMemberService.updateLibraryMember(id, libraryMember);
     }
 

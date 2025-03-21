@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.MembershipCard;
 import org.example.assigment.service.MembershipCardService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +27,12 @@ public class MembershipCardController {
     }
 
     @PostMapping()
-    public MembershipCard saveMembershipCard(@RequestBody MembershipCard membershipCard) {
+    public MembershipCard saveMembershipCard(@Validated @RequestBody MembershipCard membershipCard) {
         return membershipCardService.saveMembershipCard(membershipCard);
     }
 
     @PutMapping("/{id}")
-    public MembershipCard updateMembershipCard(@PathVariable Long id, @RequestBody MembershipCard membershipCard) {
+    public MembershipCard updateMembershipCard(@Validated @PathVariable Long id, @RequestBody MembershipCard membershipCard) {
         return membershipCardService.updateMembershipCard(id, membershipCard);
     }
 }
