@@ -55,14 +55,13 @@ public class BookService {
 
     // update
     public Book updateBook(Long id, Book book) {
-        Book oldBook = bookRepository.findById(id).orElse(null);
-        if (oldBook != null) {
-            oldBook.setTitle(book.getTitle());
-            oldBook.setIsbn(book.getIsbn());
-            oldBook.setPublicationYear(book.getPublicationYear());
-            return bookRepository.save(oldBook);
-        }
-        return null;
+        Book oldBook = bookRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Book with ID " + id + " not found"));
+
+        oldBook.setTitle(book.getTitle());
+        oldBook.setIsbn(book.getIsbn());
+        oldBook.setPublicationYear(book.getPublicationYear());
+        return bookRepository.save(oldBook);
     }
 
     // delete

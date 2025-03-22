@@ -40,8 +40,15 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public Book updateBook(@PathVariable Long id, @Validated @RequestBody Book book) {
-        return bookService.updateBook(id, book);
+    public ResponseEntity<?> updateBook(@PathVariable Long id, @Validated @RequestBody Book book) {
+        try {
+            Book updatedBook = bookService.updateBook(id, book);
+            return ResponseEntity.ok(updatedBook);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

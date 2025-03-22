@@ -64,13 +64,12 @@ public class BorrowRecordService {
 
     // update
     public BorrowRecord updateBorrowRecord(Long id, BorrowRecord borrowRecord) {
-        BorrowRecord oldBorrowRecord = borrowRecordRepository.findById(id).orElse(null);
-        if (oldBorrowRecord != null) {
-            oldBorrowRecord.setBorrowDate(borrowRecord.getBorrowDate());
-            oldBorrowRecord.setReturnDate(borrowRecord.getReturnDate());
-            return borrowRecordRepository.save(oldBorrowRecord);
-        }
-        return null;
+        BorrowRecord oldBorrowRecord = borrowRecordRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Borrow record with ID " + id + " not found"));
+
+        oldBorrowRecord.setBorrowDate(borrowRecord.getBorrowDate());
+        oldBorrowRecord.setReturnDate(borrowRecord.getReturnDate());
+        return borrowRecordRepository.save(oldBorrowRecord);
     }
 
     public void returnBook(Long id) {

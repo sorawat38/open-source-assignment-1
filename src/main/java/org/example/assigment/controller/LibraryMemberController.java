@@ -35,8 +35,15 @@ public class LibraryMemberController {
     }
 
     @PutMapping("/{id}")
-    public LibraryMember updateLibraryMember(@PathVariable Long id, @Validated @RequestBody LibraryMember libraryMember) {
-        return libraryMemberService.updateLibraryMember(id, libraryMember);
+    public ResponseEntity<?> updateLibraryMember(@PathVariable Long id, @Validated @RequestBody LibraryMember libraryMember) {
+        try {
+            LibraryMember updatedLibraryMember = libraryMemberService.updateLibraryMember(id, libraryMember);
+            return ResponseEntity.ok(updatedLibraryMember);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

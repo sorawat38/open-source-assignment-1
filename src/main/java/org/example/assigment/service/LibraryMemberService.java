@@ -39,14 +39,13 @@ public class LibraryMemberService {
 
     // update
     public LibraryMember updateLibraryMember(Long id, LibraryMember libraryMember) {
-        LibraryMember oldLibraryMember = libraryMemberRepository.findById(id).orElse(null);
-        if (oldLibraryMember != null) {
-            oldLibraryMember.setName(libraryMember.getName());
-            oldLibraryMember.setEmail(libraryMember.getEmail());
-            oldLibraryMember.setMembershipDate(libraryMember.getMembershipDate());
-            return libraryMemberRepository.save(oldLibraryMember);
-        }
-        return null;
+        LibraryMember oldLibraryMember = libraryMemberRepository.findById(id).orElseThrow(() ->
+                new IllegalStateException("Library member not found"));
+        
+        oldLibraryMember.setName(libraryMember.getName());
+        oldLibraryMember.setEmail(libraryMember.getEmail());
+        oldLibraryMember.setMembershipDate(libraryMember.getMembershipDate());
+        return libraryMemberRepository.save(oldLibraryMember);
     }
 
     // delete
@@ -112,7 +111,7 @@ public class LibraryMemberService {
         if (card == null) {
             throw new IllegalStateException("Library member does not have a membership card");
         }
-        
+
         libraryMember.setMembershipCard(null); // detach the card from the library member
         membershipCardRepository.delete(card);
         libraryMemberRepository.save(libraryMember);

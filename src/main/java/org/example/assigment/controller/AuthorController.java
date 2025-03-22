@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.Author;
 import org.example.assigment.service.AuthorService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,28 +17,47 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    // get all authors
     @GetMapping()
     public List<Author> getAllAuthors() {
         return authorService.getAllAuthors();
     }
 
+    // find author by id
     @GetMapping("/{id}")
     public Author getAuthorById(@PathVariable Long id) {
         return authorService.getAuthorById(id);
     }
 
+    // save author
     @PostMapping()
     public Author saveAuthor(@Validated @RequestBody Author author) {
         return authorService.saveAuthor(author);
     }
 
+    // update author
     @PutMapping("/{id}")
-    public Author updateAuthor(@PathVariable Long id, @Validated @RequestBody Author author) {
-        return authorService.updateAuthor(id, author);
+    public ResponseEntity<?> updateAuthor(@PathVariable Long id, @Validated @RequestBody Author author) {
+        try {
+            Author updatedAuthor = authorService.updateAuthor(id, author);
+            return ResponseEntity.ok(updatedAuthor);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
+    // delete author
     @DeleteMapping("/{id}")
-    public void deleteAuthor(@PathVariable Long id) {
-        authorService.deleteAuthor(id);
+    public ResponseEntity<?> deleteAuthor(@PathVariable Long id) {
+        try {
+            authorService.deleteAuthor(id);
+            return ResponseEntity.ok("Author deleted successfully.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }

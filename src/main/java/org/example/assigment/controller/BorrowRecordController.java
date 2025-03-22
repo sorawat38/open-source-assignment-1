@@ -55,8 +55,15 @@ public class BorrowRecordController {
     }
 
     @PutMapping("/{id}")
-    public BorrowRecord updateBorrowRecord(@PathVariable Long id, @Validated @RequestBody BorrowRecord borrowRecord) {
-        return borrowRecordService.updateBorrowRecord(id, borrowRecord);
+    public ResponseEntity<?> updateBorrowRecord(@PathVariable Long id, @Validated @RequestBody BorrowRecord borrowRecord) {
+        try {
+            BorrowRecord updatedBorrowRecord = borrowRecordService.updateBorrowRecord(id, borrowRecord);
+            return ResponseEntity.ok(updatedBorrowRecord);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

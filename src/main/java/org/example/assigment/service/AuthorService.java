@@ -31,13 +31,13 @@ public class AuthorService {
 
     // update
     public Author updateAuthor(Long id, Author author) {
-        Author oldAuthor = authorRepository.findById(id).orElse(null);
-        if (oldAuthor != null) {
-            oldAuthor.setName(author.getName());
-            oldAuthor.setBiography(author.getBiography());
-            return authorRepository.save(oldAuthor);
-        }
-        return null;
+
+        Author oldAuthor = authorRepository.findById(id).orElseThrow(() ->
+                new IllegalStateException("Can't find the author by id"));
+        
+        oldAuthor.setName(author.getName());
+        oldAuthor.setBiography(author.getBiography());
+        return authorRepository.save(oldAuthor);
     }
 
     // delete
