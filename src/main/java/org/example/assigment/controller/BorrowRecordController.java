@@ -1,5 +1,6 @@
 package org.example.assigment.controller;
 
+import org.example.assigment.dto.BorrowBookRequestDTO;
 import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.service.BorrowRecordService;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class BorrowRecordController {
     }
 
     @PostMapping()
-    public BorrowRecord saveBorrowRecord(@Validated @RequestBody BorrowRecord borrowRecord) {
-        return borrowRecordService.borrowBook(borrowRecord);
+    public BorrowRecord borrowBook(@Validated @RequestBody BorrowBookRequestDTO request) {
+        return borrowRecordService.borrowBook(request);
     }
 
     @PatchMapping("/{id}/return")
