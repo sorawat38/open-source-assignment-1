@@ -62,17 +62,6 @@ public class BorrowRecordService {
         );
     }
 
-    // update
-    public BorrowRecord updateBorrowRecord(Long id, BorrowRecord borrowRecord) {
-        BorrowRecord oldBorrowRecord = borrowRecordRepository.findById(id).orElse(null);
-        if (oldBorrowRecord != null) {
-            oldBorrowRecord.setBorrowDate(borrowRecord.getBorrowDate());
-            oldBorrowRecord.setReturnDate(borrowRecord.getReturnDate());
-            return borrowRecordRepository.save(oldBorrowRecord);
-        }
-        return null;
-    }
-
     public void returnBook(Long id) {
         BorrowRecord borrowRecord = borrowRecordRepository.findById(id).orElse(null);
         if (borrowRecord != null) {
@@ -82,10 +71,5 @@ public class BorrowRecordService {
             borrowRecord.setReturnDate(java.time.LocalDate.now());
             borrowRecordRepository.save(borrowRecord);
         }
-    }
-
-    // delete
-    public void deleteBorrowRecord(Long id) {
-        borrowRecordRepository.deleteById(id);
     }
 }
