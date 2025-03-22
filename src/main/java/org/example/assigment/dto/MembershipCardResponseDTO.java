@@ -1,5 +1,12 @@
 package org.example.assigment.dto;
 
+/**
+ * Data Transfer Object (DTO) used for responding with membership card details.
+ * Contains relevant information such as card number, issue and expiry dates,
+ * and the associated library member ID.
+ * <p>
+ * Used in: responses for endpoints related to membership card assignment and retrieval.
+ */
 public class MembershipCardResponseDTO {
     private Long id;
     private String cardNumber;
