@@ -1,5 +1,6 @@
 package org.example.assigment.controller;
 
+import org.example.assigment.dto.UpdateBookRequestDTO;
 import org.example.assigment.model.Book;
 import org.example.assigment.service.BookService;
 import org.springframework.http.ResponseEntity;
@@ -44,9 +45,9 @@ public class BookController {
 
     // update book
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBook(@PathVariable Long id, @Validated @RequestBody Book book) {
+    public ResponseEntity<?> updateBook(@PathVariable Long id, @Validated @RequestBody UpdateBookRequestDTO request) {
         try {
-            Book updatedBook = bookService.updateBook(id, book);
+            Book updatedBook = bookService.updateBook(id, request);
             return ResponseEntity.ok(updatedBook);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

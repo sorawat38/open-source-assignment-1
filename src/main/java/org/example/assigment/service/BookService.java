@@ -1,5 +1,6 @@
 package org.example.assigment.service;
 
+import org.example.assigment.dto.UpdateBookRequestDTO;
 import org.example.assigment.model.Author;
 import org.example.assigment.model.Book;
 import org.example.assigment.repository.AuthorRepository;
@@ -54,10 +55,10 @@ public class BookService {
     }
 
     // update
-    public Book updateBook(Long id, Book book) {
+    public Book updateBook(Long id, UpdateBookRequestDTO book) {
         Book oldBook = bookRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Book with ID " + id + " not found"));
-
+        
         oldBook.setTitle(book.getTitle());
         oldBook.setIsbn(book.getIsbn());
         oldBook.setPublicationYear(book.getPublicationYear());
