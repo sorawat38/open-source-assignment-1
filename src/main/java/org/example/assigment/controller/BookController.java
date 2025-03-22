@@ -17,16 +17,19 @@ public class BookController {
         this.bookService = bookService;
     }
 
+    // get all books
     @GetMapping()
     public List<Book> getAllBooks() {
         return bookService.getAllBooks();
     }
 
+    // find book by id
     @GetMapping("/{id}")
     public Book getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
+    // create a new book
     @PostMapping()
     public ResponseEntity<?> saveBook(@Validated @RequestBody Book book) {
         try {
@@ -39,6 +42,7 @@ public class BookController {
         }
     }
 
+    // update book
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBook(@PathVariable Long id, @Validated @RequestBody Book book) {
         try {
@@ -51,6 +55,7 @@ public class BookController {
         }
     }
 
+    // delete book
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteBook(@Validated @PathVariable Long id) {
         try {

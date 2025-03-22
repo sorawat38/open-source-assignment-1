@@ -20,16 +20,19 @@ public class BorrowRecordController {
         this.borrowRecordService = borrowRecordService;
     }
 
+    // get all borrow records
     @GetMapping()
     public List<BorrowRecord> getAllBorrowRecords() {
         return borrowRecordService.getAllBorrowRecords();
     }
 
+    // find borrow record by id
     @GetMapping("/{id}")
     public BorrowRecord getBorrowRecordById(@PathVariable Long id) {
         return borrowRecordService.getBorrowRecordById(id);
     }
 
+    // create a new borrow record (borrow a book)
     @PostMapping()
     public ResponseEntity<?> borrowBook(@Validated @RequestBody BorrowBookRequestDTO request) {
         try {
@@ -42,6 +45,7 @@ public class BorrowRecordController {
         }
     }
 
+    // get all borrow records by library member id
     @PatchMapping("/{id}/return")
     public ResponseEntity<?> returnBook(@PathVariable Long id) {
         try {
@@ -54,6 +58,7 @@ public class BorrowRecordController {
         }
     }
 
+    // update borrow record
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBorrowRecord(@PathVariable Long id, @Validated @RequestBody BorrowRecord borrowRecord) {
         try {
@@ -66,6 +71,7 @@ public class BorrowRecordController {
         }
     }
 
+    // delete borrow record
     @DeleteMapping("/{id}")
     public void deleteBorrowRecord(@PathVariable Long id) {
         borrowRecordService.deleteBorrowRecord(id);

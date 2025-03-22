@@ -19,21 +19,25 @@ public class LibraryMemberController {
         this.libraryMemberService = libraryMemberService;
     }
 
+    // get all library members
     @GetMapping()
     public List<LibraryMember> getAllLibraryMembers() {
         return libraryMemberService.getAllLibraryMembers();
     }
 
+    // find library member by id
     @GetMapping("/{id}")
     public LibraryMember getLibraryMemberById(@PathVariable Long id) {
         return libraryMemberService.getLibraryMemberById(id);
     }
 
+    // save library member
     @PostMapping()
     public LibraryMember saveLibraryMember(@Validated @RequestBody LibraryMember libraryMember) {
         return libraryMemberService.saveLibraryMember(libraryMember);
     }
 
+    // update library member
     @PutMapping("/{id}")
     public ResponseEntity<?> updateLibraryMember(@PathVariable Long id, @Validated @RequestBody LibraryMember libraryMember) {
         try {
@@ -46,6 +50,7 @@ public class LibraryMemberController {
         }
     }
 
+    // delete library member
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLibraryMember(@PathVariable Long id) {
         try {
@@ -56,6 +61,8 @@ public class LibraryMemberController {
         return ResponseEntity.ok().body("Library member deleted successfully.");
     }
 
+    // ================ Membership Card Management ===============
+    // assign membership card
     @PostMapping("/{id}/membership-card")
     public ResponseEntity<?> assignMembershipCard(@PathVariable Long id) {
         try {
@@ -65,6 +72,7 @@ public class LibraryMemberController {
         }
     }
 
+    // get membership card by library member id
     @GetMapping("/{id}/membership-card")
     public ResponseEntity<?> getMembershipCard(@PathVariable Long id) {
         try {
@@ -74,6 +82,7 @@ public class LibraryMemberController {
         }
     }
 
+    // revoke membership card
     @PostMapping("/{id}/membership-card/revoke")
     public ResponseEntity<?> revokeMembershipCard(@PathVariable Long id) {
         try {

@@ -16,16 +16,19 @@ public class MembershipCardController {
         this.membershipCardService = membershipCardService;
     }
 
+    // get all membership cards
     @GetMapping()
     public List<MembershipCard> getAllMembershipCards() {
         return membershipCardService.getAllMembershipCards();
     }
 
+    // find membership card by id
     @GetMapping("/{id}")
     public MembershipCard getMembershipCardById(@PathVariable Long id) {
         return membershipCardService.getMembershipCardById(id);
     }
 
+    // create a new membership card
     @PutMapping("/{id}")
     public MembershipCard updateMembershipCard(@PathVariable Long id, @Validated @RequestBody MembershipCard membershipCard) {
         return membershipCardService.updateMembershipCard(id, membershipCard);
