@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.LibraryMember;
 import org.example.assigment.service.LibraryMemberService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,34 @@ public class LibraryMemberController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         return ResponseEntity.ok().body("Library member deleted successfully.");
+    }
+
+    @PostMapping("/{id}/membership-card")
+    public ResponseEntity<?> assignMembershipCard(@PathVariable Long id) {
+        try {
+            return new ResponseEntity<>(libraryMemberService.assignMembershipCard(id), HttpStatus.CREATED);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{id}/membership-card")
+    public ResponseEntity<?> getMembershipCard(@PathVariable Long id) {
+        try {
+            return new ResponseEntity<>(libraryMemberService.getMembershipCardByLibraryMemberId(id), HttpStatus.OK);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/{id}/membership-card/revoke")
+    public ResponseEntity<?> revokeMembershipCard(@PathVariable Long id) {
+        try {
+            libraryMemberService.revokeMembershipCard(id);
+            return ResponseEntity.ok().body("Membership card revoked successfully.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
 

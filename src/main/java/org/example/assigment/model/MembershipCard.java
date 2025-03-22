@@ -24,13 +24,13 @@ public class MembershipCard {
     private LibraryMember libraryMember;
 
     public MembershipCard() {
-    }
-
-    public MembershipCard(String issueDate, String expiryDate) {
+        // generate a random 12-character membership card number
         this.cardNumber = generateCardNumber();
+
+        // set the issue date and expiry date
         LocalDate currentDate = LocalDate.now();
         this.issueDate = currentDate;
-        this.expiryDate = currentDate.plus(3, java.time.temporal.ChronoUnit.YEARS);
+        this.expiryDate = currentDate.plusYears(3);
     }
 
     /**

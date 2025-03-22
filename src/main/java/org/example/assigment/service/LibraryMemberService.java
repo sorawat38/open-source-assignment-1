@@ -1,9 +1,12 @@
 package org.example.assigment.service;
 
+import org.example.assigment.dto.MembershipCardResponseDTO;
 import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.model.LibraryMember;
+import org.example.assigment.model.MembershipCard;
 import org.example.assigment.repository.BorrowRecordRepository;
 import org.example.assigment.repository.LibraryMemberRepository;
+import org.example.assigment.repository.MembershipCardRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +15,12 @@ import java.util.List;
 public class LibraryMemberService {
     private final LibraryMemberRepository libraryMemberRepository;
     private final BorrowRecordRepository borrowRecordRepository;
+    private final MembershipCardRepository membershipCardRepository;
 
-    public LibraryMemberService(LibraryMemberRepository libraryMemberRepository, BorrowRecordRepository borrowRecordRepository) {
+    public LibraryMemberService(LibraryMemberRepository libraryMemberRepository, BorrowRecordRepository borrowRecordRepository, MembershipCardRepository membershipCardRepository) {
         this.libraryMemberRepository = libraryMemberRepository;
         this.borrowRecordRepository = borrowRecordRepository;
+        this.membershipCardRepository = membershipCardRepository;
     }
 
     public List<LibraryMember> getAllLibraryMembers() {
@@ -55,4 +60,61 @@ public class LibraryMemberService {
         libraryMemberRepository.deleteById(id);
     }
 
+    public MembershipCardResponseDTO assignMembershipCard(Long id) {
+        // check that library member exists
+        LibraryMember libraryMember = libraryMemberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Library member not found"));
+
+        // check that library member has not already been assigned a membership card
+        if (libraryMember.getMembershipCard() != null) {
+            throw new IllegalStateException("Library member already has a membership card");
+        }
+
+        MembershipCard card = new MembershipCard();
+
+        card.setLibraryMember(libraryMember);
+        libraryMember.setMembershipCard(card);
+
+        MembershipCard savedCard = membershipCardRepository.save(card);
+
+        return new MembershipCardResponseDTO(
+                savedCard.getId(),
+                savedCard.getCardNumber(),
+                savedCard.getIssueDate().toString(),
+                savedCard.getExpiryDate().toString(),
+                savedCard.getLibraryMember().getId()
+        );
+    }
+
+    public MembershipCardResponseDTO getMembershipCardByLibraryMemberId(Long id) {
+        LibraryMember libraryMember = libraryMemberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Library member not found"));
+
+        MembershipCard card = libraryMember.getMembershipCard();
+        if (card == null) {
+            throw new IllegalStateException("Library member does not have a membership card");
+        }
+
+        return new MembershipCardResponseDTO(
+                card.getId(),
+                card.getCardNumber(),
+                card.getIssueDate().toString(),
+                card.getExpiryDate().toString(),
+                card.getLibraryMember().getId()
+        );
+    }
+
+    public void revokeMembershipCard(Long id) {
+        LibraryMember libraryMember = libraryMemberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Library member not found"));
+
+        MembershipCard card = libraryMember.getMembershipCard();
+        if (card == null) {
+            throw new IllegalStateException("Library member does not have a membership card");
+        }
+        
+        libraryMember.setMembershipCard(null); // detach the card from the library member
+        membershipCardRepository.delete(card);
+        libraryMemberRepository.save(libraryMember);
+    }
 }
