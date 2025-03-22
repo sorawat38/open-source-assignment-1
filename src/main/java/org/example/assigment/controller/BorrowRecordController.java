@@ -53,4 +53,14 @@ public class BorrowRecordController {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
+
+    @PutMapping("/{id}")
+    public BorrowRecord updateBorrowRecord(@PathVariable Long id, @Validated @RequestBody BorrowRecord borrowRecord) {
+        return borrowRecordService.updateBorrowRecord(id, borrowRecord);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteBorrowRecord(@PathVariable Long id) {
+        borrowRecordService.deleteBorrowRecord(id);
+    }
 }
