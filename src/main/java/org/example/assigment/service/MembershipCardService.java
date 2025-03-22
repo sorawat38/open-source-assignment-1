@@ -29,13 +29,12 @@ public class MembershipCardService {
 
     // update
     public MembershipCard updateMembershipCard(Long id, MembershipCard membershipCard) {
-        MembershipCard oldMembershipCard = membershipCardRepository.findById(id).orElse(null);
-        if (oldMembershipCard != null) {
-            oldMembershipCard.setCardNumber(membershipCard.getCardNumber());
-            oldMembershipCard.setIssueDate(membershipCard.getIssueDate());
-            oldMembershipCard.setExpiryDate(membershipCard.getExpiryDate());
-            return membershipCardRepository.save(oldMembershipCard);
-        }
-        return null;
+        MembershipCard oldMembershipCard = membershipCardRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Membership card with ID " + id + " not found"));
+
+        oldMembershipCard.setCardNumber(membershipCard.getCardNumber());
+        oldMembershipCard.setIssueDate(membershipCard.getIssueDate());
+        oldMembershipCard.setExpiryDate(membershipCard.getExpiryDate());
+        return membershipCardRepository.save(oldMembershipCard);
     }
 }

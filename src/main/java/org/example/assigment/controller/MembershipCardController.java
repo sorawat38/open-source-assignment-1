@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.MembershipCard;
 import org.example.assigment.service.MembershipCardService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,14 @@ public class MembershipCardController {
 
     // create a new membership card
     @PutMapping("/{id}")
-    public MembershipCard updateMembershipCard(@PathVariable Long id, @Validated @RequestBody MembershipCard membershipCard) {
-        return membershipCardService.updateMembershipCard(id, membershipCard);
+    public ResponseEntity<?> updateMembershipCard(@PathVariable Long id, @Validated @RequestBody MembershipCard membershipCard) {
+        try {
+            MembershipCard updatedMembershipCard = membershipCardService.updateMembershipCard(id, membershipCard);
+            return ResponseEntity.ok(updatedMembershipCard);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
