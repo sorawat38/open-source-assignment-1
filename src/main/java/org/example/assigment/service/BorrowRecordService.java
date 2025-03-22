@@ -32,8 +32,7 @@ public class BorrowRecordService {
         return borrowRecordRepository.findById(id).orElse(null);
     }
 
-    // save
-    public BorrowRecord saveBorrowRecord(BorrowRecord borrowRecord) {
+    public BorrowRecord borrowBook(BorrowRecord borrowRecord) {
         Long bookId = borrowRecord.getBook().getId();
         Long memberId = borrowRecord.getLibraryMember().getId();
 

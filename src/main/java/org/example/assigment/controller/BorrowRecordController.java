@@ -29,7 +29,7 @@ public class BorrowRecordController {
 
     @PostMapping()
     public BorrowRecord saveBorrowRecord(@Validated @RequestBody BorrowRecord borrowRecord) {
-        return borrowRecordService.saveBorrowRecord(borrowRecord);
+        return borrowRecordService.borrowBook(borrowRecord);
     }
 
     @PatchMapping("/{id}/return")
