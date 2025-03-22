@@ -42,6 +42,14 @@ public class AuthorService {
 
     // delete
     public void deleteAuthor(Long id) {
+        // find the author that don't have book record
+        Author author = authorRepository.findById(id).orElseThrow(
+                () -> new IllegalStateException("Can't find the author by id"));
+
+        if (!author.getBooks().isEmpty()) {
+            throw new IllegalStateException("Can't delete linked author with book");
+        }
+
         authorRepository.deleteById(id);
     }
 }
