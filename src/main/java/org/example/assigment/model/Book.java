@@ -3,6 +3,7 @@ package org.example.assigment.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 import java.util.Set;
@@ -13,12 +14,15 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Book title is required")
     @Column(nullable = false, unique = true)
     private String title;
 
+    @NotNull(message = "ISBN is required")
     @Column(nullable = false, unique = true)
     private String isbn;
 
+    @NotNull(message = "Publication year is required")
     @Column(nullable = false)
     private int publicationYear;
 

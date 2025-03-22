@@ -2,6 +2,8 @@ package org.example.assigment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,12 +14,16 @@ public class LibraryMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Member name is required")
     @Column(nullable = false)
     private String name;
 
+    @NotNull(message = "Email is required")
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
+    @NotNull(message = "Membership date is required")
     @Column(nullable = false)
     private LocalDate membershipDate;
 

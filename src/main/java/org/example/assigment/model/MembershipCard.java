@@ -1,6 +1,7 @@
 package org.example.assigment.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Random;
@@ -11,12 +12,15 @@ public class MembershipCard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Card number is required")
     @Column(nullable = false)
     private String cardNumber;
 
+    @NotNull(message = "Issue date is required")
     @Column(nullable = false)
     private LocalDate issueDate;
 
+    @NotNull(message = "Expiry date is required")
     @Column(nullable = false)
     private LocalDate expiryDate;
 

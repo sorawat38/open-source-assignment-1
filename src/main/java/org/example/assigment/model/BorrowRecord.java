@@ -11,6 +11,7 @@ public class BorrowRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Borrow date cannot be null")
     @Column(nullable = false)
     private LocalDate borrowDate;
     private LocalDate returnDate;
