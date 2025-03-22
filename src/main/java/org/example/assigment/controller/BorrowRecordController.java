@@ -45,7 +45,7 @@ public class BorrowRecordController {
         }
     }
 
-    // get all borrow records by library member id
+    // return a book
     @PatchMapping("/{id}/return")
     public ResponseEntity<?> returnBook(@PathVariable Long id) {
         try {

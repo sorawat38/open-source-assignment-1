@@ -2,6 +2,7 @@ package org.example.assigment.controller;
 
 import org.example.assigment.model.Author;
 import org.example.assigment.service.AuthorService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,9 @@ public class AuthorController {
 
     // save author
     @PostMapping()
-    public Author saveAuthor(@Validated @RequestBody Author author) {
-        return authorService.saveAuthor(author);
+    public ResponseEntity<?> saveAuthor(@Validated @RequestBody Author author) {
+        Author savedAuthor = authorService.saveAuthor(author);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedAuthor);
     }
 
     // update author

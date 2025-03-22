@@ -1,5 +1,6 @@
 package org.example.assigment.controller;
 
+import org.example.assigment.dto.MembershipCardResponseDTO;
 import org.example.assigment.model.LibraryMember;
 import org.example.assigment.service.LibraryMemberService;
 import org.springframework.http.HttpStatus;
@@ -66,7 +67,8 @@ public class LibraryMemberController {
     @PostMapping("/{id}/membership-card")
     public ResponseEntity<?> assignMembershipCard(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(libraryMemberService.assignMembershipCard(id), HttpStatus.CREATED);
+            MembershipCardResponseDTO membershipCardResponseDTO = libraryMemberService.assignMembershipCard(id);
+            return ResponseEntity.status(HttpStatus.CREATED).body(membershipCardResponseDTO);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -76,7 +78,8 @@ public class LibraryMemberController {
     @GetMapping("/{id}/membership-card")
     public ResponseEntity<?> getMembershipCard(@PathVariable Long id) {
         try {
-            return new ResponseEntity<>(libraryMemberService.getMembershipCardByLibraryMemberId(id), HttpStatus.OK);
+            MembershipCardResponseDTO membershipCardResponseDTO = libraryMemberService.getMembershipCardByLibraryMemberId(id);
+            return ResponseEntity.ok(membershipCardResponseDTO);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
