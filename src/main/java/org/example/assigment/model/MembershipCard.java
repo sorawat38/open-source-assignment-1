@@ -2,6 +2,7 @@ package org.example.assigment.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 @Entity
@@ -14,10 +15,10 @@ public class MembershipCard {
     private String cardNumber;
 
     @Column(nullable = false)
-    private String issueDate;
+    private LocalDate issueDate;
 
     @Column(nullable = false)
-    private String expiryDate;
+    private LocalDate expiryDate;
 
     @OneToOne(mappedBy = "membershipCard", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private LibraryMember libraryMember;
@@ -27,8 +28,9 @@ public class MembershipCard {
 
     public MembershipCard(String issueDate, String expiryDate) {
         this.cardNumber = generateCardNumber();
-        this.issueDate = issueDate;
-        this.expiryDate = expiryDate;
+        LocalDate currentDate = LocalDate.now();
+        this.issueDate = currentDate;
+        this.expiryDate = currentDate.plus(3, java.time.temporal.ChronoUnit.YEARS);
     }
 
     /**
@@ -68,19 +70,19 @@ public class MembershipCard {
         this.cardNumber = cardNumber;
     }
 
-    public String getIssueDate() {
+    public LocalDate getIssueDate() {
         return issueDate;
     }
 
-    public void setIssueDate(String issueDate) {
+    public void setIssueDate(LocalDate issueDate) {
         this.issueDate = issueDate;
     }
 
-    public String getExpiryDate() {
+    public LocalDate getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(String expiryDate) {
+    public void setExpiryDate(LocalDate expiryDate) {
         this.expiryDate = expiryDate;
     }
 
