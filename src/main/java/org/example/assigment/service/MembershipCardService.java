@@ -1,6 +1,7 @@
 package org.example.assigment.service;
 
 import org.example.assigment.model.MembershipCard;
+import org.example.assigment.repository.LibraryMemberRepository;
 import org.example.assigment.repository.MembershipCardRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +10,11 @@ import java.util.List;
 @Service
 public class MembershipCardService {
     private final MembershipCardRepository membershipCardRepository;
+    private final LibraryMemberRepository libraryMemberRepository;
 
-    public MembershipCardService(MembershipCardRepository membershipCardRepository) {
+    public MembershipCardService(MembershipCardRepository membershipCardRepository, LibraryMemberRepository libraryMemberRepository) {
         this.membershipCardRepository = membershipCardRepository;
+        this.libraryMemberRepository = libraryMemberRepository;
     }
 
     // get all
@@ -24,11 +27,6 @@ public class MembershipCardService {
         return membershipCardRepository.findById(id).orElse(null);
     }
 
-    // save
-    public MembershipCard saveMembershipCard(MembershipCard membershipCard) {
-        return membershipCardRepository.save(membershipCard);
-    }
-
     // update
     public MembershipCard updateMembershipCard(Long id, MembershipCard membershipCard) {
         MembershipCard oldMembershipCard = membershipCardRepository.findById(id).orElse(null);
@@ -39,10 +37,5 @@ public class MembershipCardService {
             return membershipCardRepository.save(oldMembershipCard);
         }
         return null;
-    }
-
-    // delete
-    public void deleteMembershipCard(Long id) {
-        membershipCardRepository.deleteById(id);
     }
 }

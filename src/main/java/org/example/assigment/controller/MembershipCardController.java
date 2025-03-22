@@ -26,11 +26,6 @@ public class MembershipCardController {
         return membershipCardService.getMembershipCardById(id);
     }
 
-    @PostMapping()
-    public MembershipCard saveMembershipCard(@Validated @RequestBody MembershipCard membershipCard) {
-        return membershipCardService.saveMembershipCard(membershipCard);
-    }
-
     @PutMapping("/{id}")
     public MembershipCard updateMembershipCard(@PathVariable Long id, @Validated @RequestBody MembershipCard membershipCard) {
         return membershipCardService.updateMembershipCard(id, membershipCard);
