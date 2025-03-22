@@ -1,7 +1,10 @@
 package org.example.assigment.controller;
 
+import org.example.assigment.dto.BorrowBookRequestDTO;
+import org.example.assigment.dto.BorrowRecordResponseDTO;
 import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.service.BorrowRecordService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,8 +31,15 @@ public class BorrowRecordController {
     }
 
     @PostMapping()
-    public BorrowRecord saveBorrowRecord(@Validated @RequestBody BorrowRecord borrowRecord) {
-        return borrowRecordService.borrowBook(borrowRecord);
+    public ResponseEntity<?> borrowBook(@Validated @RequestBody BorrowBookRequestDTO request) {
+        try {
+            BorrowRecordResponseDTO response = borrowRecordService.borrowBook(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @PatchMapping("/{id}/return")

@@ -1,5 +1,7 @@
 package org.example.assigment.service;
 
+import org.example.assigment.dto.BorrowBookRequestDTO;
+import org.example.assigment.dto.BorrowRecordResponseDTO;
 import org.example.assigment.model.Book;
 import org.example.assigment.model.BorrowRecord;
 import org.example.assigment.model.LibraryMember;
@@ -32,9 +34,9 @@ public class BorrowRecordService {
         return borrowRecordRepository.findById(id).orElse(null);
     }
 
-    public BorrowRecord borrowBook(BorrowRecord borrowRecord) {
-        Long bookId = borrowRecord.getBook().getId();
-        Long memberId = borrowRecord.getLibraryMember().getId();
+    public BorrowRecordResponseDTO borrowBook(BorrowBookRequestDTO borrowBookRequest) {
+        Long bookId = borrowBookRequest.getBookId();
+        Long memberId = borrowBookRequest.getLibraryMemberId();
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book with ID " + bookId + " not found"));
@@ -48,10 +50,16 @@ public class BorrowRecordService {
             throw new IllegalStateException("This book is currently borrowed by someone else.");
         }
 
-        borrowRecord.setBook(book);
-        borrowRecord.setLibraryMember(member);
-
-        return borrowRecordRepository.save(borrowRecord);
+        // create a new borrow record model
+        BorrowRecord record = new BorrowRecord(member, book);
+        BorrowRecord saved = borrowRecordRepository.save(record);
+        return new BorrowRecordResponseDTO(
+                saved.getId(),
+                saved.getBook().getId(),
+                saved.getLibraryMember().getId(),
+                saved.getBorrowDate().toString(),
+                saved.getReturnDate().toString()
+        );
     }
 
     // update

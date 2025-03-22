@@ -28,10 +28,10 @@ public class BorrowRecord {
     public BorrowRecord() {
     }
 
-    public BorrowRecord(LibraryMember libraryMember, Book book, LocalDate borrowDate) {
+    public BorrowRecord(LibraryMember libraryMember, Book book) {
         this.libraryMember = libraryMember;
         this.book = book;
-        this.borrowDate = borrowDate;
+        this.borrowDate = LocalDate.now();
         this.returnDate = null; // not returned yet
     }
 
