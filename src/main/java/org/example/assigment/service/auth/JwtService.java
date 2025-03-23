@@ -41,7 +41,6 @@ public class JwtService {
         // pair that are added to playload)
         // claim.put("iss", "oosdwinter2025");
         Map<String, String> claims = new HashMap<>();
-        claims.put("program", "samOosd2025");
 
         return Jwts.builder()
                 .claims(claims)
@@ -68,6 +67,6 @@ public class JwtService {
 
     public boolean isTokenNotExpired(String jwt) {
         Claims claims = getPayload(jwt);
-        return claims.getExpiration().after(Date.from(Instant.now()));
+        return claims.getExpiration().toInstant().isAfter(Instant.now());
     }
 }

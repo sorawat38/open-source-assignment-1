@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // extract the JWT token from the request header
         // get the token from the request header
         String authHeader = request.getHeader("Authorization");
-        System.out.println(authHeader);
+        System.out.println("Authorization Header: " + authHeader);
 
         // ensure the token in header is not null
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -50,19 +50,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // extract user details from username
             UserDetails userDetails = myUserService.loadUserByUsername(username);
             // check if token is valid => token has not expired
-            if (!jwtService.isTokenNotExpired(jwt)) {
+            if (jwtService.isTokenNotExpired(jwt)) {
                 // if token is not expired then perform basic authentication using username and password
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         username,
                         userDetails.getPassword(),
                         userDetails.getAuthorities()
                 );
+                System.out.println("User roles: " + userDetails.getAuthorities());
                 // add this the auth token to the request
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource()
                         .buildDetails(request)
                 );
                 // put the auth token in the security context
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            } else {
+                System.out.println("Token is expired");
             }
         }
     }
