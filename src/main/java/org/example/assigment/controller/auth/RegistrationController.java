@@ -1,5 +1,6 @@
 package org.example.assigment.controller.auth;
 
+import org.example.assigment.dto.LoginRequestDTO;
 import org.example.assigment.model.auth.MyUser;
 import org.example.assigment.service.auth.JwtService;
 import org.example.assigment.service.auth.MyUserService;
@@ -30,7 +31,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<?> loginUser(@RequestBody MyUser user) {
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO user) {
         System.out.println("Logging in user: " + user.getUsername());
         // use AuthenticationManager to authenticate user
         Authentication authentication = authenticationManager.authenticate(
