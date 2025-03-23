@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class RegistrationController {
+public class AuthController {
 
     private final MyUserService myUserService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public RegistrationController(MyUserService myUserService, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthController(MyUserService myUserService, AuthenticationManager authenticationManager, JwtService jwtService) {
         this.myUserService = myUserService;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
