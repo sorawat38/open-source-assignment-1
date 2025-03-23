@@ -1,9 +1,11 @@
 package org.example.assigment.controller.auth;
 
 import org.example.assigment.dto.LoginRequestDTO;
-import org.example.assigment.model.auth.MyUser;
+import org.example.assigment.dto.RegisterRequestDTO;
+import org.example.assigment.dto.RegisterResponseDTO;
 import org.example.assigment.service.auth.JwtService;
 import org.example.assigment.service.auth.MyUserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,8 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/api/register")
-    public ResponseEntity<MyUser> createUser(@RequestBody MyUser user) {
-        return ResponseEntity.ok(myUserService.saveUser(user));
+    public ResponseEntity<RegisterResponseDTO> createUser(@RequestBody RegisterRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(myUserService.saveUser(request));
     }
 
     @PostMapping("/api/login")

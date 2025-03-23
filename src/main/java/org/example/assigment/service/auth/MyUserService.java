@@ -1,5 +1,7 @@
 package org.example.assigment.service.auth;
 
+import org.example.assigment.dto.RegisterRequestDTO;
+import org.example.assigment.dto.RegisterResponseDTO;
 import org.example.assigment.model.auth.MyUser;
 import org.example.assigment.repository.auth.MyUserRepository;
 import org.springframework.security.core.userdetails.User;
@@ -34,9 +36,19 @@ public class MyUserService implements UserDetailsService {
         return null;
     }
 
-    public MyUser saveUser(MyUser user) {
+    public RegisterResponseDTO saveUser(RegisterRequestDTO request) {
+
+        // create a new user
+        MyUser user = new MyUser();
+        user.setUsername(request.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        return myUserRepository.save(user);
+        user.setRole(request.getRole());
+
+        MyUser savedUser = myUserRepository.save(user);
+        return new RegisterResponseDTO(
+                savedUser.getUsername(),
+                savedUser.getRole()
+        );
     }
 
 }
