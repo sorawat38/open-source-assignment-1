@@ -34,10 +34,7 @@ public class BorrowRecordService {
         return borrowRecordRepository.findById(id).orElse(null);
     }
 
-    public BorrowRecordResponseDTO borrowBook(BorrowBookRequestDTO borrowBookRequest) {
-        Long bookId = borrowBookRequest.getBookId();
-        Long memberId = borrowBookRequest.getLibraryMemberId();
-
+    public BorrowRecordResponseDTO borrowBook(Long bookId, Long memberId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new IllegalArgumentException("Book with ID " + bookId + " not found"));
 
