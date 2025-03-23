@@ -1,7 +1,7 @@
 package org.example.assigment.service.auth;
 
-import org.example.assigment.dto.RegisterRequestDTO;
-import org.example.assigment.dto.RegisterResponseDTO;
+import org.example.assigment.dto.auth.RegisterRequestDTO;
+import org.example.assigment.dto.auth.RegisterResponseDTO;
 import org.example.assigment.model.auth.MyUser;
 import org.example.assigment.repository.auth.MyUserRepository;
 import org.springframework.security.core.userdetails.User;

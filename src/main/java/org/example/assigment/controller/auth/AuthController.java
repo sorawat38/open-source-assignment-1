@@ -1,8 +1,8 @@
 package org.example.assigment.controller.auth;
 
-import org.example.assigment.dto.LoginRequestDTO;
-import org.example.assigment.dto.RegisterRequestDTO;
-import org.example.assigment.dto.RegisterResponseDTO;
+import org.example.assigment.dto.auth.LoginRequestDTO;
+import org.example.assigment.dto.auth.RegisterRequestDTO;
+import org.example.assigment.dto.auth.RegisterResponseDTO;
 import org.example.assigment.service.auth.JwtService;
 import org.example.assigment.service.auth.MyUserService;
 import org.springframework.http.HttpStatus;

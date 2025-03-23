@@ -1,4 +1,4 @@
-package org.example.assigment.dto;
+package org.example.assigment.dto.auth;
 
 import jakarta.validation.constraints.NotNull;
 
