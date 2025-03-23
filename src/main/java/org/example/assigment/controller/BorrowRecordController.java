@@ -36,7 +36,7 @@ public class BorrowRecordController {
     @PostMapping()
     public ResponseEntity<?> borrowBook(@Validated @RequestBody BorrowBookRequestDTO request) {
         try {
-            BorrowRecordResponseDTO response = borrowRecordService.borrowBook(request);
+            BorrowRecordResponseDTO response = borrowRecordService.borrowBook(request.getBookId(), request.getLibraryMemberId());
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
