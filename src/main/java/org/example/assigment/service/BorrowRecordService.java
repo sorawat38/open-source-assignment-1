@@ -1,6 +1,5 @@
 package org.example.assigment.service;
 
-import org.example.assigment.dto.BorrowBookRequestDTO;
 import org.example.assigment.dto.BorrowRecordResponseDTO;
 import org.example.assigment.model.Book;
 import org.example.assigment.model.BorrowRecord;
@@ -70,14 +69,14 @@ public class BorrowRecordService {
     }
 
     public void returnBook(Long id) {
-        BorrowRecord borrowRecord = borrowRecordRepository.findById(id).orElse(null);
-        if (borrowRecord != null) {
-            if (borrowRecord.getReturnDate() != null) {
-                throw new IllegalStateException("This book has already been returned.");
-            }
-            borrowRecord.setReturnDate(java.time.LocalDate.now());
-            borrowRecordRepository.save(borrowRecord);
+        BorrowRecord borrowRecord = borrowRecordRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("Borrow record with ID " + id + " not found"));
+        
+        if (borrowRecord.getReturnDate() != null) {
+            throw new IllegalStateException("This book has already been returned.");
         }
+        borrowRecord.setReturnDate(java.time.LocalDate.now());
+        borrowRecordRepository.save(borrowRecord);
     }
 
     // delete
