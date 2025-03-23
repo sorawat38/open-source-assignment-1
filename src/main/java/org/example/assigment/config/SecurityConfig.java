@@ -50,16 +50,16 @@ public class SecurityConfig {
                         // books
                         .requestMatchers(HttpMethod.GET, "/api/books/available").permitAll() // get all available books
                         .requestMatchers(HttpMethod.POST, "/api/books").hasAnyRole("ADMIN", "LIBRARIAN")// add (create book)
-                        .requestMatchers(HttpMethod.PUT, "/api/books/**").hasAnyRole("ADMIN", "LIBRARIAN") // update book
-                        .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasAnyRole("ADMIN", "LIBRARIAN") // delete book
+                        .requestMatchers(HttpMethod.PUT, "/api/books/*").hasAnyRole("ADMIN", "LIBRARIAN") // update book
+                        .requestMatchers(HttpMethod.DELETE, "/api/books/*").hasAnyRole("ADMIN", "LIBRARIAN") // delete book
                         // authors
                         .requestMatchers(HttpMethod.POST, "/api/authors").hasAnyRole("ADMIN", "LIBRARIAN") // add (create author)
-                        .requestMatchers(HttpMethod.PUT, "/api/authors/**").hasAnyRole("ADMIN", "LIBRARIAN") // update author
-                        .requestMatchers(HttpMethod.DELETE, "/api/authors/**").hasAnyRole("ADMIN", "LIBRARIAN") // delete author
+                        .requestMatchers(HttpMethod.PUT, "/api/authors/*").hasAnyRole("ADMIN", "LIBRARIAN") // update author
+                        .requestMatchers(HttpMethod.DELETE, "/api/authors/*").hasAnyRole("ADMIN", "LIBRARIAN") // delete author
                         // borrow records
                         .requestMatchers(HttpMethod.GET, "/api/borrow-records").hasRole("ADMIN") // get all borrow records
                         .requestMatchers(HttpMethod.POST, "/api/borrow-records").hasAnyRole("LIBRARIAN") // add (create borrow record)
-                        .requestMatchers(HttpMethod.PUT, "/api/borrow-records/**").hasAnyRole("LIBRARIAN") // update borrow record
+                        .requestMatchers(HttpMethod.PUT, "/api/borrow-records/*").hasAnyRole("LIBRARIAN") // update borrow record
                         .requestMatchers(HttpMethod.PATCH, "/api/borrow-records/*/return").hasAnyRole("LIBRARIAN", "MEMBER") // return book
                         // library members
                         .requestMatchers(HttpMethod.GET, "/api/library-members").hasRole("LIBRARIAN") // get all library members
