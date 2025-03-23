@@ -60,11 +60,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/borrow-records").hasRole("ADMIN") // get all borrow records
                         .requestMatchers(HttpMethod.POST, "/api/borrow-records").hasAnyRole("LIBRARIAN") // add (create borrow record)
                         .requestMatchers(HttpMethod.PUT, "/api/borrow-records/**").hasAnyRole("LIBRARIAN") // update borrow record
-                        .requestMatchers(HttpMethod.PATCH, "/api/borrow-records/**/return").hasAnyRole("LIBRARIAN", "MEMBER") // return book
+                        .requestMatchers(HttpMethod.PATCH, "/api/borrow-records/*/return").hasAnyRole("LIBRARIAN", "MEMBER") // return book
                         // library members
                         .requestMatchers(HttpMethod.GET, "/api/library-members").hasRole("LIBRARIAN") // get all library members
-                        .requestMatchers(HttpMethod.POST, "/api/library-members/**/borrowed-books").hasRole("MEMBER") // borrow book by member
-                        .requestMatchers(HttpMethod.GET, "/api/library-members/**/borrowed-books").hasAnyRole("MEMBER") // get all borrowed books by library member
+                        .requestMatchers(HttpMethod.POST, "/api/library-members/*/borrowed-books").hasRole("MEMBER") // borrow book by member
+                        .requestMatchers(HttpMethod.GET, "/api/library-members/*/borrowed-books").hasAnyRole("MEMBER") // get all borrowed books by library member
         );
 
         httpSecurity.addFilterBefore(
