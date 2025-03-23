@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/register").permitAll()
                         .requestMatchers("/api/login").permitAll()
                         // books
+                        .requestMatchers(HttpMethod.GET, "/api/books/available").permitAll() // get all available books
                         .requestMatchers(HttpMethod.POST, "/api/books").hasAnyRole("ADMIN", "LIBRARIAN")// add (create book)
                         .requestMatchers(HttpMethod.PUT, "/api/books/**").hasAnyRole("ADMIN", "LIBRARIAN") // update book
                         .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasAnyRole("ADMIN", "LIBRARIAN") // delete book
