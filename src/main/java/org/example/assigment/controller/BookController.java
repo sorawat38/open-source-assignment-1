@@ -20,8 +20,14 @@ public class BookController {
 
     // get all books
     @GetMapping()
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
+    public ResponseEntity<List<Book>> getAllBooks() {
+        return ResponseEntity.ok(bookService.getAllBooks());
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Book>> getAvailableBooks() {
+        List<Book> availableBooks = bookService.getAvailableBooks();
+        return ResponseEntity.ok(availableBooks);
     }
 
     // find book by id

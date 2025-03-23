@@ -58,7 +58,7 @@ public class BookService {
     public Book updateBook(Long id, UpdateBookRequestDTO book) {
         Book oldBook = bookRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("Book with ID " + id + " not found"));
-        
+
         oldBook.setTitle(book.getTitle());
         oldBook.setIsbn(book.getIsbn());
         oldBook.setPublicationYear(book.getPublicationYear());
@@ -72,5 +72,9 @@ public class BookService {
             throw new IllegalStateException("This book is currently borrowed and cannot be deleted.");
         }
         bookRepository.deleteById(id);
+    }
+
+    public List<Book> getAvailableBooks() {
+        return bookRepository.findAvailableBooks();
     }
 }
