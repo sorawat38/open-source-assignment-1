@@ -41,7 +41,7 @@ public class LibraryMemberService {
     public LibraryMember updateLibraryMember(Long id, LibraryMember libraryMember) {
         LibraryMember oldLibraryMember = libraryMemberRepository.findById(id).orElseThrow(() ->
                 new IllegalStateException("Library member not found"));
-        
+
         oldLibraryMember.setName(libraryMember.getName());
         oldLibraryMember.setEmail(libraryMember.getEmail());
         oldLibraryMember.setMembershipDate(libraryMember.getMembershipDate());
@@ -115,5 +115,19 @@ public class LibraryMemberService {
         libraryMember.setMembershipCard(null); // detach the card from the library member
         membershipCardRepository.delete(card);
         libraryMemberRepository.save(libraryMember);
+    }
+
+    public List<String> getAllBorrowedBooksByLibraryMemberId(Long id) {
+        LibraryMember libraryMember = libraryMemberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("Library member not found"));
+
+        List<BorrowRecord> borrowRecords = borrowRecordRepository.findByLibraryMemberId(libraryMember.getId());
+        if (borrowRecords.isEmpty()) {
+            throw new IllegalStateException("Library member has not borrowed any books");
+        }
+
+        return borrowRecords.stream()
+                .map(borrowRecord -> borrowRecord.getBook().getTitle())
+                .toList();
     }
 }

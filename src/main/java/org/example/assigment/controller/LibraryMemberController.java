@@ -1,7 +1,10 @@
 package org.example.assigment.controller;
 
+import org.example.assigment.dto.BorrowBookRequestForMemberDTO;
+import org.example.assigment.dto.BorrowRecordResponseDTO;
 import org.example.assigment.dto.MembershipCardResponseDTO;
 import org.example.assigment.model.LibraryMember;
+import org.example.assigment.service.BorrowRecordService;
 import org.example.assigment.service.LibraryMemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +18,11 @@ import java.util.List;
 public class LibraryMemberController {
 
     private final LibraryMemberService libraryMemberService;
+    private final BorrowRecordService borrowRecordService;
 
-    public LibraryMemberController(LibraryMemberService libraryMemberService) {
+    public LibraryMemberController(LibraryMemberService libraryMemberService, BorrowRecordService borrowRecordService) {
         this.libraryMemberService = libraryMemberService;
+        this.borrowRecordService = borrowRecordService;
     }
 
     // get all library members
@@ -91,6 +96,28 @@ public class LibraryMemberController {
         try {
             libraryMemberService.revokeMembershipCard(id);
             return ResponseEntity.ok().body("Membership card revoked successfully.");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // get all borrowed books by library member id
+    @GetMapping("/{id}/borrowed-books")
+    public ResponseEntity<?> getAllBorrowedBooksByLibraryMemberId(@PathVariable Long id) {
+        try {
+            List<String> borrowedBooks = libraryMemberService.getAllBorrowedBooksByLibraryMemberId(id);
+            return ResponseEntity.ok(borrowedBooks);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // borrow a book
+    @PostMapping("/{id}/borrowed-books")
+    public ResponseEntity<?> borrowBook(@PathVariable Long id, @Validated @RequestBody BorrowBookRequestForMemberDTO request) {
+        try {
+            BorrowRecordResponseDTO borrowRecordResponseDTO = borrowRecordService.borrowBook(request.getBookId(), id);
+            return ResponseEntity.ok().body(borrowRecordResponseDTO);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
