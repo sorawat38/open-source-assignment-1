@@ -68,5 +68,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 System.out.println("Token is expired");
             }
         }
+        filterChain.doFilter(request, response);
     }
 }
