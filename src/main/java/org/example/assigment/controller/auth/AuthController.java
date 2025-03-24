@@ -25,18 +25,38 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
+    /**
+     * Registers a new user as a MEMBER.
+     * This endpoint is open for public registration and automatically assigns the MEMBER role.
+     *
+     * @param request the registration data containing username and password
+     * @return HTTP 201 with the newly registered user info
+     */
     @PostMapping("/api/register")
     public ResponseEntity<RegisterResponseDTO> registerMember(@Validated @RequestBody RegisterRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(myUserService.saveUser(request.getUsername(), request.getPassword()));
     }
 
+    /**
+     * Registers a new user with a specified role.
+     * This endpoint is restricted to admin use and allows setting ADMIN, LIBRARIAN, or MEMBER roles.
+     *
+     * @param request the registration data including username, password, and role
+     * @return HTTP 201 with the newly registered user info
+     */
     @PostMapping("/api/admin/register")
     public ResponseEntity<RegisterResponseDTO> createUserByAdmin(@Validated @RequestBody AdminRegisterRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(myUserService.saveUser(request.getUsername(), request.getPassword(), request.getRole()));
     }
 
+    /**
+     * Authenticates a user and returns a JWT token upon success.
+     *
+     * @param user the login credentials (username and password)
+     * @return JWT token if authenticated, or HTTP 401 if failed
+     */
     @PostMapping("/api/login")
     public ResponseEntity<?> loginUser(@Validated @RequestBody LoginRequestDTO user) {
         System.out.println("Logging in user: " + user.getUsername());
@@ -54,6 +74,13 @@ public class AuthController {
         }
     }
 
+    /**
+     * Creates a new user with the LIBRARIAN role.
+     * This endpoint is used by admins to register librarians.
+     *
+     * @param request the registration data with username and password
+     * @return HTTP 201 with the new librarian’s info, or appropriate error response
+     */
     // create librarian
     @PostMapping("/api/librarians")
     public ResponseEntity<?> createLibrarian(@Validated @RequestBody RegisterRequestDTO request) {
@@ -67,6 +94,14 @@ public class AuthController {
         }
     }
 
+    /**
+     * Updates the username and password of a librarian by ID.
+     * Validates that the user is a librarian before updating.
+     *
+     * @param id      the ID of the librarian to update
+     * @param request the new username and password
+     * @return updated librarian info, or appropriate error response
+     */
     // update librarian
     @PutMapping("/api/librarians/{id}")
     public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @Validated @RequestBody RegisterRequestDTO request) {
@@ -82,6 +117,13 @@ public class AuthController {
         }
     }
 
+    /**
+     * Deletes a librarian by ID.
+     * Ensures that the user has the LIBRARIAN role before deletion.
+     *
+     * @param id the ID of the librarian to delete
+     * @return success message or appropriate error response
+     */
     // delete librarian
     @DeleteMapping("/api/librarians/{id}")
     public ResponseEntity<?> deleteLibrarian(@PathVariable Long id) {
