@@ -3,7 +3,7 @@ package org.example.assigment.dto.auth;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public class UpdateLibrarianRequestDTO {
+public class CreateUpdateLibrarianRequestDTO {
     @NotNull(message = "Username cannot be null")
     private String username;
     @NotNull(message = "Password cannot be null")
@@ -11,7 +11,7 @@ public class UpdateLibrarianRequestDTO {
     @Pattern(regexp = "LIBRARIAN", message = "Can update only to LIBRARIAN") // only LIBRARIAN role is allowed
     private String role;
 
-    public UpdateLibrarianRequestDTO() {
+    public CreateUpdateLibrarianRequestDTO() {
     }
 
     public String getUsername() {
