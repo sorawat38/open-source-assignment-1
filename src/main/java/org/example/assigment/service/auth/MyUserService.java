@@ -2,6 +2,7 @@ package org.example.assigment.service.auth;
 
 import org.example.assigment.dto.auth.RegisterRequestDTO;
 import org.example.assigment.dto.auth.RegisterResponseDTO;
+import org.example.assigment.dto.auth.UpdateUserResponseDTO;
 import org.example.assigment.model.auth.MyUser;
 import org.example.assigment.repository.auth.MyUserRepository;
 import org.springframework.security.core.userdetails.User;
@@ -41,13 +42,32 @@ public class MyUserService implements UserDetailsService {
         // create a new user
         MyUser user = new MyUser();
         user.setUsername(request.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
         user.setRole(request.getRole());
 
         MyUser savedUser = myUserRepository.save(user);
         return new RegisterResponseDTO(
                 savedUser.getUsername(),
                 savedUser.getRole()
+        );
+    }
+
+    public UpdateUserResponseDTO updateUser(Long id, String username, String password, String role) {
+        Optional<MyUser> myUser = myUserRepository.findById(id);
+        if (myUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with id: " + id);
+        }
+
+        MyUser user = myUser.get();
+        user.setUsername(username);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setRole(role);
+
+        MyUser updatedUser = myUserRepository.save(user);
+        return new UpdateUserResponseDTO(
+                updatedUser.getId(),
+                updatedUser.getUsername(),
+                updatedUser.getRole()
         );
     }
 
