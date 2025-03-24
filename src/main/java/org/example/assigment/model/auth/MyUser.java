@@ -17,6 +17,7 @@ public class MyUser {
     private String username;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
     private String role;
 
     public MyUser() {
@@ -56,10 +57,6 @@ public class MyUser {
 
     @JsonIgnore
     public String[] getRoles() {
-        if (role == null) {
-            return new String[]{"EMPLOYEE"};
-        } else {
-            return role.split(",");
-        }
+        return role.split(",");
     }
 }
