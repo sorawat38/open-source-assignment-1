@@ -46,6 +46,7 @@ public class AuthController {
         }
     }
 
+    // create librarian
     @PostMapping("/api/librarians")
     public ResponseEntity<?> createLibrarian(@Validated @RequestBody CreateUpdateLibrarianRequestDTO request) {
         try {
