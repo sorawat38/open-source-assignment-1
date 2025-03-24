@@ -1,8 +1,6 @@
 package org.example.assigment.controller.auth;
 
-import org.example.assigment.dto.auth.LoginRequestDTO;
-import org.example.assigment.dto.auth.RegisterRequestDTO;
-import org.example.assigment.dto.auth.RegisterResponseDTO;
+import org.example.assigment.dto.auth.*;
 import org.example.assigment.service.auth.JwtService;
 import org.example.assigment.service.auth.MyUserService;
 import org.springframework.http.HttpStatus;
@@ -10,9 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthController {
@@ -33,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping("/api/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequestDTO user) {
+    public ResponseEntity<?> loginUser(@Validated @RequestBody LoginRequestDTO user) {
         System.out.println("Logging in user: " + user.getUsername());
         // use AuthenticationManager to authenticate user
         Authentication authentication = authenticationManager.authenticate(
