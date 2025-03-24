@@ -1,5 +1,6 @@
 package org.example.assigment.controller.auth;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.assigment.dto.auth.*;
 import org.example.assigment.service.auth.JwtService;
 import org.example.assigment.service.auth.MyUserService;
@@ -55,9 +56,9 @@ public class AuthController {
 
     // create librarian
     @PostMapping("/api/librarians")
-    public ResponseEntity<?> createLibrarian(@Validated @RequestBody CreateUpdateLibrarianRequestDTO request) {
+    public ResponseEntity<?> createLibrarian(@Validated @RequestBody RegisterRequestDTO request) {
         try {
-            RegisterResponseDTO newLibrarian = myUserService.saveUser(request.getUsername(), request.getPassword(), request.getRole());
+            RegisterResponseDTO newLibrarian = myUserService.createLibrarian(request.getUsername(), request.getPassword());
             return ResponseEntity.status(HttpStatus.CREATED).body(newLibrarian);
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -68,10 +69,12 @@ public class AuthController {
 
     // update librarian
     @PutMapping("/api/librarians/{id}")
-    public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @Validated @RequestBody CreateUpdateLibrarianRequestDTO request) {
+    public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @Validated @RequestBody RegisterRequestDTO request) {
         try {
-            UpdateUserResponseDTO updatedLibrarian = myUserService.updateUser(id, request.getUsername(), request.getPassword(), request.getRole());
+            UpdateUserResponseDTO updatedLibrarian = myUserService.updateLibrarian(id, request.getUsername(), request.getPassword());
             return ResponseEntity.ok(updatedLibrarian);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
@@ -85,6 +88,8 @@ public class AuthController {
         try {
             myUserService.deleteLibrarian(id);
             return ResponseEntity.ok("Librarian deleted successfully");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
