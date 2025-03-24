@@ -8,7 +8,7 @@ public class UpdateLibrarianRequestDTO {
     private String username;
     @NotNull(message = "Password cannot be null")
     private String password;
-    @Pattern(regexp = "LIBRARIAN", message = "Can update only to LIBRARIAN")
+    @Pattern(regexp = "LIBRARIAN", message = "Can update only to LIBRARIAN") // only LIBRARIAN role is allowed
     private String role;
 
     public UpdateLibrarianRequestDTO() {

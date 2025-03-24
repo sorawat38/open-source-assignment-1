@@ -48,7 +48,7 @@ public class AuthController {
 
     // update librarian
     @PutMapping("/api/librarians/{id}")
-    public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @RequestBody UpdateLibrarianRequestDTO request) {
+    public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @Validated @RequestBody UpdateLibrarianRequestDTO request) {
         try {
             UpdateUserResponseDTO updatedLibrarian = myUserService.updateUser(id, request.getUsername(), request.getPassword(), request.getRole());
             return ResponseEntity.ok(updatedLibrarian);
