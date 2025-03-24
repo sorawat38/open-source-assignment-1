@@ -48,6 +48,7 @@ public class MyUserService implements UserDetailsService {
 
         MyUser savedUser = myUserRepository.save(user);
         return new RegisterResponseDTO(
+                savedUser.getId(),
                 savedUser.getUsername(),
                 savedUser.getRole()
         );
@@ -63,6 +64,7 @@ public class MyUserService implements UserDetailsService {
 
         MyUser savedUser = myUserRepository.save(user);
         return new RegisterResponseDTO(
+                savedUser.getId(),
                 savedUser.getUsername(),
                 savedUser.getRole()
         );
