@@ -1,6 +1,5 @@
 package org.example.assigment.service.auth;
 
-import org.example.assigment.dto.auth.RegisterRequestDTO;
 import org.example.assigment.dto.auth.RegisterResponseDTO;
 import org.example.assigment.dto.auth.UpdateUserResponseDTO;
 import org.example.assigment.model.auth.MyUser;
@@ -39,13 +38,13 @@ public class MyUserService implements UserDetailsService {
         return null;
     }
 
-    public RegisterResponseDTO saveUser(RegisterRequestDTO request) {
+    public RegisterResponseDTO saveUser(String username, String password, String role) {
 
         // create a new user
         MyUser user = new MyUser();
-        user.setUsername(request.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setUsername(username);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setRole(role);
 
         MyUser savedUser = myUserRepository.save(user);
         return new RegisterResponseDTO(

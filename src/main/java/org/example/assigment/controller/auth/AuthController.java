@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/api/register")
     public ResponseEntity<RegisterResponseDTO> createUser(@Validated @RequestBody RegisterRequestDTO request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(myUserService.saveUser(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(myUserService.saveUser(request.getUsername(), request.getPassword(), request.getRole()));
     }
 
     @PostMapping("/api/login")
@@ -46,9 +46,21 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/api/librarians")
+    public ResponseEntity<?> createLibrarian(@Validated @RequestBody CreateUpdateLibrarianRequestDTO request) {
+        try {
+            RegisterResponseDTO newLibrarian = myUserService.saveUser(request.getUsername(), request.getPassword(), request.getRole());
+            return ResponseEntity.status(HttpStatus.CREATED).body(newLibrarian);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
     // update librarian
     @PutMapping("/api/librarians/{id}")
-    public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @Validated @RequestBody UpdateLibrarianRequestDTO request) {
+    public ResponseEntity<?> updateLibrarian(@PathVariable Long id, @Validated @RequestBody CreateUpdateLibrarianRequestDTO request) {
         try {
             UpdateUserResponseDTO updatedLibrarian = myUserService.updateUser(id, request.getUsername(), request.getPassword(), request.getRole());
             return ResponseEntity.ok(updatedLibrarian);
