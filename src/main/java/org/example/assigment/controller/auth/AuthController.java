@@ -60,4 +60,15 @@ public class AuthController {
     }
 
     // delete librarian
+    @DeleteMapping("/api/librarians/{id}")
+    public ResponseEntity<?> deleteLibrarian(@PathVariable Long id) {
+        try {
+            myUserService.deleteLibrarian(id);
+            return ResponseEntity.ok("Librarian deleted successfully");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 }

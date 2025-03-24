@@ -4,6 +4,7 @@ import org.example.assigment.dto.auth.RegisterRequestDTO;
 import org.example.assigment.dto.auth.RegisterResponseDTO;
 import org.example.assigment.dto.auth.UpdateUserResponseDTO;
 import org.example.assigment.model.auth.MyUser;
+import org.example.assigment.model.auth.Role;
 import org.example.assigment.repository.auth.MyUserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -71,4 +73,15 @@ public class MyUserService implements UserDetailsService {
         );
     }
 
+
+    public void deleteLibrarian(Long id) {
+        MyUser user = myUserRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+
+        if (Arrays.stream(user.getRoles()).noneMatch(role -> role.equals(Role.LIBRARIAN.name()))) {
+            throw new IllegalStateException("User is not a librarian");
+        }
+
+        myUserRepository.delete(user);
+    }
 }
