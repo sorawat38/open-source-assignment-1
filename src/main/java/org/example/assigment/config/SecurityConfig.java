@@ -65,7 +65,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/library-members").hasRole("LIBRARIAN") // get all library members
                         .requestMatchers(HttpMethod.POST, "/api/library-members/*/borrowed-books").hasRole("MEMBER") // borrow book by member
                         .requestMatchers(HttpMethod.GET, "/api/library-members/*/borrowed-books").hasAnyRole("MEMBER") // get all borrowed books by library member
-                        // role - librarian
+                        // role
+                        .requestMatchers(HttpMethod.POST, "/api/admin/register").hasRole("ADMIN") // create user by admin
                         .requestMatchers(HttpMethod.POST, "/api/librarians").hasRole("ADMIN") // get all librarians
                         .requestMatchers(HttpMethod.PUT, "/api/librarians/*").hasRole("ADMIN") // uppdate librarian
                         .requestMatchers(HttpMethod.DELETE, "/api/librarians/*").hasRole("ADMIN") // delete librarian

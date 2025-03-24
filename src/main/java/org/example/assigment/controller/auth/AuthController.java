@@ -25,8 +25,15 @@ public class AuthController {
     }
 
     @PostMapping("/api/register")
-    public ResponseEntity<RegisterResponseDTO> createUser(@Validated @RequestBody RegisterRequestDTO request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(myUserService.saveUser(request.getUsername(), request.getPassword(), request.getRole()));
+    public ResponseEntity<RegisterResponseDTO> registerMember(@Validated @RequestBody RegisterRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(myUserService.saveUser(request.getUsername(), request.getPassword()));
+    }
+
+    @PostMapping("/api/admin/register")
+    public ResponseEntity<RegisterResponseDTO> createUserByAdmin(@Validated @RequestBody AdminRegisterRequestDTO request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(myUserService.saveUser(request.getUsername(), request.getPassword(), request.getRole()));
     }
 
     @PostMapping("/api/login")

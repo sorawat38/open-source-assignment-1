@@ -38,6 +38,21 @@ public class MyUserService implements UserDetailsService {
         return null;
     }
 
+    public RegisterResponseDTO saveUser(String username, String password) {
+
+        // create a new user
+        MyUser user = new MyUser();
+        user.setUsername(username);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setRole(Role.MEMBER.name()); // default role
+
+        MyUser savedUser = myUserRepository.save(user);
+        return new RegisterResponseDTO(
+                savedUser.getUsername(),
+                savedUser.getRole()
+        );
+    }
+
     public RegisterResponseDTO saveUser(String username, String password, String role) {
 
         // create a new user
